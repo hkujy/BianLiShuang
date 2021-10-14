@@ -2,6 +2,7 @@
     main func
 """
 
+from numpy.lib.shape_base import tile
 import ParaScript as ps
 import MyClass as mc
 import MyFuncs as mf
@@ -25,17 +26,24 @@ if __name__ == '__main__':
     op2 = mc.OperatorClass(_id = 2)
     op3 = mc.OperatorClass(_id = 3)
 
-    op1.price = 1
+    # price of the two company 
+    op1.price = 0.5
     op2.price = 0.5
-    op1.dist = 8
-    op1.time = 8
-    op2.dist = 4
-    op2.time = 4
-    op3.timecost = 2
+    # distance of the two company 
+    op1.dist = 0.2
+    op2.dist = 0.1
+    # travel time of the two companies
+    op1.time = 0.0
+    op2.time = 0.0
+    # travel timecos of the third company 
+    op3.timecost = 0.1
     op2.discount_H = op1.dist-op2.dist
 
-    for i in range(0,10):
-        para.la = 0.1*(i+1)
+    for i in range(0,20):
+        para.la = 0.05*(i+1)
+        if op2.price-para.la*op2.discount_H<0:
+            print("error: the op2 price after discout is negative")
+            input()
         mf.get_x(para,op1,op2,op3)
         mf._update_profitAndCost(para,op1,op2)
         x1_list.append(op1.numpas) 
@@ -45,8 +53,22 @@ if __name__ == '__main__':
         op1_cost.append(op1.opcost)
         op2_cost.append(op2.opcost)
         print("p1={0},p2={1}".format(op1_profit,op2_profit))
-    plt.plot(op2_profit)
-    plt.show()
-    plt.plot(op1_profit)
-    plt.show()
+    # plt.plot(op2_profit)
+    # plt.ion()
+    # plt.pause(2)
+    # plt.close()
+    # plt.plot(op1_profit)
+    # plt.ion()
+    # plt.pause(2)
+    # plt.close()
+    plt.plot(x1_list)
+    plt.title("x1")
+    plt.ion()
+    plt.pause(2)
+    plt.close()
+    plt.plot(x2_list)
+    plt.title("x2")
+    plt.ion()
+    plt.pause(2)
+    plt.close()
     # step 3: plot
