@@ -126,7 +126,7 @@ def test_one_ParaSet(case_id: int, _para: ps.ParaClass()):
     operators[2].time = _para.travel_time[2]
 
 
-    for i in range(0, 5):
+    for i in range(0, 10):
         _para.discount_ratio = 0.05*(i+1)
         operators[1].discount = get_discont_val(
             operators[0].time, operators[1].time, _para)
@@ -135,6 +135,7 @@ def test_one_ParaSet(case_id: int, _para: ps.ParaClass()):
             print("error: the op2 price after discout is negative")
             input()
         get_x(_para, operators)
+        print("{0},{1}".format(operators[0].numpas,operators[1].numpas))
         update_ProfitAndCost(_para, operators)
         x1_list.append(operators[0].numpas)
         x2_list.append(operators[1].numpas)
@@ -178,5 +179,10 @@ def test_one_ParaSet(case_id: int, _para: ps.ParaClass()):
     plt.pause(2)
     plt.tight_layout()
     plt.savefig("proft_case_"+str(case_id)+".png",bbox_inches='tight',dpi=600) 
+    plt.close()
+    plt.plot(op2_profit, label='op2')
+    plt.title("Op2 Profit")
+    plt.ion()
+    plt.savefig("Op2Profit"+str(case_id)+".png",bbox_inches='tight',dpi=600) 
     plt.close()
     # step 3: plot
