@@ -5,6 +5,12 @@ from os import times
 import ParaScript as ps
 import matplotlib.pyplot as plt
 
+#TODO:
+# 1. add fixed operation cost 
+# 2. add the effect of freqeuncy 
+
+
+
 class OperatorClass(object):
     """
     operator
@@ -99,6 +105,24 @@ def update_ProfitAndCost(_p: ps.ParaClass, _op):
     _op[0].cal_profit(_p)
     _op[1].cal_profit(_p)
 
+def find_optimal_discount(dc,pf):
+    """
+        find the optimal discount value
+        dc: discount list
+        pf: profit lst
+    """
+    if len(dc) != len(pf):
+        print("Warning: the length of the input list do not equal")
+        input("--------need to debug----------------")
+
+    max_prof = -9999
+    max_prof_index = -1
+    for i in range(0,len(dc)):
+        if pf[i]>max_prof:
+            max_prof_index = i
+            max_prof = pf[i]
+    return dc[max_prof_index],pf[max_prof_index]
+
 
 def test_one_ParaSet(case_id: int, _para: ps.ParaClass()):
     """
@@ -152,6 +176,8 @@ def test_one_ParaSet(case_id: int, _para: ps.ParaClass()):
             (case_id,_para.price[0],_para.price[1],_para.travel_time[0],_para.travel_time[1],_para.travel_time[2],
             _para.discount_ratio,_para.m,_para.g,x1_list[i],x2_list[i],op1_profit[i],op2_profit[i],
             op1_cost[i],op2_cost[i]),file=f)
+    opt_disc, opt_profit = find_optimal_discount(discount,op2_profit) 
+    print("Optimal Discount = {0}, Optimal Profit = {1}".format(opt_disc, opt_profit))
  
     # plt.plot(op2_profit)
     # plt.ion()
